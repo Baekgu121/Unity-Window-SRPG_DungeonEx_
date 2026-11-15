@@ -59,7 +59,7 @@ namespace Code.UI
                 skillIconImage.gameObject.SetActive(true);
             }
 
-            if (skillNameText != null) skillNameText.text = evt.Skill.skillName;
+            if (skillNameText != null) skillNameText.text = evt.Skill.SkillName;
             if (skillDescText != null) skillDescText.text = evt.Skill.SkillDescription;
             if (skillCostText != null) skillCostText.text = evt.Skill.SkillCost.ToString();
             if (skillDamageText != null) skillDamageText.text = evt.Skill.SkillDamage.ToString();

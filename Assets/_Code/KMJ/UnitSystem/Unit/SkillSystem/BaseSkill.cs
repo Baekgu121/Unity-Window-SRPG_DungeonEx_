@@ -6,12 +6,6 @@ using UnityEngine.Events;
 
 namespace Code.SkillSystem
 {
-    public enum SkillType
-    {
-        BasicSkill,
-        ActiveSkill,
-    }
-
     public abstract class BaseSkill : MonoBehaviour
     {
         [Header("Base Settings")] 

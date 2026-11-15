@@ -13,29 +13,28 @@ namespace Code.SkillSystem
     public abstract class SkillComponent : MonoBehaviour, IUnitComponent
     {
         [SerializeField] protected List<SkillSO> skillList = new List<SkillSO>();
+        [SerializeField] private UnitSkillStorageSO skillStorage;
         public Dictionary<SkillSO, BaseSkill> Skills { get; private set; }
 
-        [SerializeField] private UnitSkillStorageSO skillStorage;
-
-        protected UnitStatCompo _statCompo;
-        protected Unit _unit;
+        protected UnitStatCompo statCompo;
+        protected Unit unit;
 
         protected int basicDamage = 0;
         protected bool isUseSkill = true;
 
         public void Initialize(Unit owner)
         {
-            _unit = owner;
+            unit = owner;
             
             if(skillStorage != null)
             {
                 skillList = skillStorage.skills;
             }
             
-            if (_unit != null && _statCompo == null)
-                _statCompo = _unit.GetUnitCompo<UnitStatCompo>();
+            if (unit != null && statCompo == null)
+                statCompo = unit.GetUnitCompo<UnitStatCompo>();
 
-            foreach (var skill in SkillSendManager.Instance.GetEquipSkills(_unit.unitSO.UnitType))
+            foreach (var skill in SkillSendManager.Instance.GetEquipSkills(unit.unitSO.UnitType))
             {
                 if(!skillList.Contains(skill))
                   skillList.Add(skill);
@@ -46,28 +45,28 @@ namespace Code.SkillSystem
 
             foreach (var skillData in skillList)
             {
-                if (skillData == null || string.IsNullOrEmpty(skillData.className))
+                if (skillData == null || string.IsNullOrEmpty(skillData.ClassName))
                     continue;
 
-                Type type = GetTypeByName(skillData.className);
+                Type type = GetTypeByName(skillData.ClassName);
 
                 if (type == null)
                 {
-                    Debug.LogError($"[SkillComponent] '{_unit.name}'의 스킬 '{skillData.skillName}'에 해당하는 클래스 '{skillData.className}'를 찾을 수 없습니다. (네임스페이스 확인 필요)");
+                    Debug.LogError($"[SkillComponent] '{unit.name}'의 스킬 '{skillData.SkillName}'에 해당하는 클래스 '{skillData.ClassName}'를 찾을 수 없습니다.");
                     continue;
                 }
 
-                var component = _unit.GetComponentInChildren(type, true);
+                var component = unit.GetComponentInChildren(type, true);
 
                 if (component is BaseSkill baseSkill)
                 {
-
                     if (component == null)
                         continue;
+                    
                     Skills.TryAdd(skillData, baseSkill);
                 }
                 else
-                    Debug.LogWarning($"[SkillComponent] '{_unit.name}'에 스킬 컴포넌트 '{type.Name}'가 부착되어 있지 않습니다.");
+                    Debug.LogWarning($"[SkillComponent] '{unit.name}'에 스킬 컴포넌트 '{type.Name}'가 부착되어 있지 않습니다.");
             }
 
             SkillSetDamage();
@@ -81,14 +80,14 @@ namespace Code.SkillSystem
             {
                 foreach (var skill in Skills.Values)
                 {
-                    if (_statCompo != null)
+                    if (statCompo != null)
                     {
-                        int skillDamageValue = _statCompo.GetStat(StatInfo.AtkDamage);
+                        int skillDamageValue = statCompo.GetStat(StatInfo.AtkDamage);
                         int finallyDamage = (int)(skillDamageValue * skill.BasicSkillDamage);
                         basicDamage = finallyDamage;
                     }
                     else
-                        basicDamage = _statCompo.GetStat(StatInfo.AtkDamage);
+                        basicDamage = statCompo.GetStat(StatInfo.AtkDamage);
 
                     skill.InitializeSkill();
                     skill.SetDamage(basicDamage);
@@ -149,34 +148,34 @@ namespace Code.SkillSystem
             }
         }
         
-        public void StartSkill(SkillSO skillSO)
+        public void StartSkill(SkillSO skillSo)
         {
-            if (!isUseSkill)
+            if (!isUseSkill || !unit.isMyTurn)
                 return;
             
-            if (!Skills.ContainsKey(skillSO))
+            if (!Skills.ContainsKey(skillSo))
                 return;
 
-            BaseSkill skill = Skills.GetValueOrDefault(skillSO);
+            BaseSkill skill = Skills.GetValueOrDefault(skillSo);
 
             if (skill != null)
             {
-                StartSkill(skill,skillSO);
+                StartSkill(skill,skillSo);
             }
         }
 
         public void CancelAllSkill()
         {
-            if (_unit.isMyTurn)
+            if (!unit.isMyTurn)
+                return;
+            
+            foreach (var skill in Skills.Values)
             {
-                foreach (var skill in Skills.Values)
-                {
-                    CancelSkill(skill);
-                }   
-            }
+                CancelSkill(skill);
+            }   
         }
 
-        protected virtual void StartSkill(BaseSkill skill, SkillSO skillSO)
+        protected virtual void StartSkill(BaseSkill skill, SkillSO skillSo)
         {
             
         }

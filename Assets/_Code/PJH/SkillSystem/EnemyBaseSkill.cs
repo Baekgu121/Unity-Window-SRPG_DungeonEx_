@@ -168,11 +168,11 @@ namespace Code.SkillSystem
 
         private bool PlayAttackAnimation()
         {
-            if (Owner?.UnitAnimator == null || SkillSO == null || string.IsNullOrWhiteSpace(SkillSO.skillAnimationKey))
+            if (Owner?.UnitAnimator == null || SkillSO == null || string.IsNullOrWhiteSpace(SkillSO.SkillAnimationKey))
                 return false;
 
             Owner.UnitAnimator.RestartFromEntry();
-            Owner.UnitAnimator.PlaySelectAnimation(SkillSO.skillAnimationKey);
+            Owner.UnitAnimator.PlaySelectAnimation(SkillSO.SkillAnimationKey);
             return true;
         }
     }

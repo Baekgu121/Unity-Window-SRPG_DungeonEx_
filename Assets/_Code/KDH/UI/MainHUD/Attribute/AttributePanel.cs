@@ -489,7 +489,7 @@ namespace Code.UI
         private void HandleSkillEquipped(SkillEquipEvent evt)
         {
             UnitSO data = _currentUnit?.Data;
-            if (data == null || evt.Skill == null || evt.Skill.unitType != data.UnitType)
+            if (data == null || evt.Skill == null || evt.Skill.UnitType != data.UnitType)
                 return;
 
             if (SkillSendManager.Instance == null)
@@ -523,7 +523,7 @@ namespace Code.UI
         private void HandleSkillUnequipped(SkillUnequipEvent evt)
         {
             UnitSO data = _currentUnit?.Data;
-            if (data == null || evt.Skill == null || evt.Skill.unitType != data.UnitType)
+            if (data == null || evt.Skill == null || evt.Skill.UnitType != data.UnitType)
                 return;
 
             data.SkillStorage?.skills.Remove(evt.Skill);

@@ -46,7 +46,7 @@ namespace Code.UI
             _button.onClick.AddListener(HandleSkill);
 
             if (skillNameText != null)
-                skillNameText.text = skill.skillName;
+                skillNameText.text = skill.SkillName;
 
             if (skillDescText != null)
                 skillDescText.text = skill.SkillDescription;

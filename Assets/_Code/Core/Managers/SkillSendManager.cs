@@ -23,7 +23,7 @@ namespace Code.Core.Managers
         public List<SkillSO> GetSkillList(UnitType unitType)
         {
             if (skills == null) return new List<SkillSO>();
-            return skills.Where(s => s != null && s.unitType == unitType).ToList();
+            return skills.Where(s => s != null && s.UnitType == unitType).ToList();
         }
 
         public void SyncEquippedSkills(UnitSO unit)
@@ -44,7 +44,7 @@ namespace Code.Core.Managers
         {
             if (skill == null) return;
 
-            var unitType = skill.unitType;
+            var unitType = skill.UnitType;
             if (!_equipSkillDict.TryGetValue(unitType, out var list))
             {
                 list = new List<SkillSO>();
@@ -58,7 +58,7 @@ namespace Code.Core.Managers
         {
             if (skill == null) return;
 
-            if (_equipSkillDict.TryGetValue(skill.unitType, out var list))
+            if (_equipSkillDict.TryGetValue(skill.UnitType, out var list))
             {
                 list.Remove(skill);
             }

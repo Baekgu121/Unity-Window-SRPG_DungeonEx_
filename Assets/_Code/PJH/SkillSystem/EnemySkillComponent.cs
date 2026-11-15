@@ -4,9 +4,9 @@ namespace Code.SkillSystem
 {
     public class EnemySkillComponent : SkillComponent
     {
-        protected override void StartSkill(BaseSkill skill, SkillSO skillSO)
+        protected override void StartSkill(BaseSkill skill, SkillSO skillSo)
         {
-            skill.ConfigureSkillRange(skillSO);
+            skill.ConfigureSkillRange(skillSo);
             skill.ShowSkillRange();
             Bus<UsingSkillEvent>.Raise(new UsingSkillEvent(false));
         }

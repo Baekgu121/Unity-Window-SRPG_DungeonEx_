@@ -11,8 +11,8 @@ public class BasicAttackSkill : BasicUnitSkill
     [SerializeField] private Animator animator;
     [SerializeField] private float atkMoveSpeed;
 
-    private UnitVFXCompo vfxCompo;
-    private UnitAnimation animtionCompo;
+    private UnitVFXCompo _vfxCompo;
+    private UnitAnimation _animtionCompo;
     private GameObject _target;
         
     private Vector3 _ownTrm;
@@ -20,8 +20,8 @@ public class BasicAttackSkill : BasicUnitSkill
     protected void Start()
     {
         SkillEvent.AddListener(AttackAction);
-        vfxCompo = _characterUnit.GetUnitCompo<UnitVFXCompo>();
-        animtionCompo = _characterUnit.GetUnitCompo<UnitAnimation>();
+        _vfxCompo = _characterUnit.GetUnitCompo<UnitVFXCompo>();
+        _animtionCompo = _characterUnit.GetUnitCompo<UnitAnimation>();
     }
 
     protected override void StartEvent()
@@ -59,12 +59,12 @@ public class BasicAttackSkill : BasicUnitSkill
         SkillFeedbackEvent?.Invoke();
         yield return new WaitForSeconds(0.2f);
 
-        animtionCompo.PlaySelectAnimation("BAS");
+        _animtionCompo.PlaySelectAnimation("BAS");
     }
 
     public void ShowEffect()
     {
-        vfxCompo.PlayVFX("GroundAtkEffect");
+        _vfxCompo.PlayVFX("GroundAtkEffect");
     }
     
     public void TakeDamage()
@@ -80,7 +80,7 @@ public class BasicAttackSkill : BasicUnitSkill
     private void ReturnOwnPos()
     {
         SkillEnd();
-        animtionCompo.PlaySelectAnimation("IDLE");
+        _animtionCompo.PlaySelectAnimation("IDLE");
     }
 
     protected override void SkillEnd()

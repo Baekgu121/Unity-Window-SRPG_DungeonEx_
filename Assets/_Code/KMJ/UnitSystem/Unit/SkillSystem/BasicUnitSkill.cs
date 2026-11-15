@@ -141,7 +141,7 @@ namespace Code.SkillSystem
                 return;
             
             
-            if (SkillSO.SkillType == SkillType.BasicSkill && SkillCount >= 1)
+            if (SkillSO.SkillType == SkillType.BasicAttack && SkillCount >= 1)
             {
                 SkillFinished(true);
                 Bus<WarningUIEvent>.Raise(new WarningUIEvent("일반 공격은 한번만 사용가능합니다."));           

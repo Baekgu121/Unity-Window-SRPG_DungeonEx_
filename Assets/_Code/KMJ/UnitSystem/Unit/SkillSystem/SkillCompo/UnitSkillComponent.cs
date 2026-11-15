@@ -7,24 +7,23 @@ namespace Code.SkillSystem
 {
     public class UnitSkillComponent : SkillComponent
     {
-        [SerializeField] private InputReader _intputReader;
-
+        [SerializeField] private InputReader intputReader;
         [SerializeField] private SkillManageComponent skillManageCompo;
+        
         private void Start()
         {
-            _intputReader.OnCancelEvent += CancelAllSkill;
+            intputReader.OnCancelEvent += CancelAllSkill;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            _intputReader.OnCancelEvent -= CancelAllSkill;
-            
+            intputReader.OnCancelEvent -= CancelAllSkill;
         }
 
-        protected override void StartSkill(BaseSkill skill, SkillSO skillso)
+        protected override void StartSkill(BaseSkill skill, SkillSO skillSo)
         {
-            skill.ConfigureSkillRange(skillso);
+            skill.ConfigureSkillRange(skillSo);
             
             if(skillManageCompo.GetSkillInfo() != null)
                 skillManageCompo.GetSkillInfo().SkillFinished(true);

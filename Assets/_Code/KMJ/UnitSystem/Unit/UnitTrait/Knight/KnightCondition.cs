@@ -5,13 +5,12 @@ namespace Code.UnitSystem.TraitSystem
 {
     public class KnightCondition : MonoBehaviour, IUnitCondition
     {
-        private Unit _unit;
+        [SerializeField] private int maxStack = 4;
+        
         private int _stack = 0;
-        [SerializeField] private int _maxStack = 4;
 
         public void Initialize(Unit unit)
         {
-            _unit = unit;
         }
         
         private void SetStack()
@@ -30,7 +29,7 @@ namespace Code.UnitSystem.TraitSystem
             
             Bus<KnightSpecEvent>.Raise(new KnightSpecEvent(_stack));
             
-            if (_stack >= _maxStack)
+            if (_stack >= maxStack)
             {
                 return true;
             }

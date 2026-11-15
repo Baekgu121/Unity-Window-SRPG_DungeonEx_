@@ -32,7 +32,7 @@ namespace Code.UI
         public void SetSkill(SkillSO skill, TextMeshProUGUI goldTxt)
         {
             skillImg.sprite = skill.skillUIImage;
-            skillUnit.text = skill.unitType.ToString();
+            skillUnit.text = skill.UnitType.ToString();
             skillDec.text = skill.SkillDescription;
 
             this.goldTxt = goldTxt;

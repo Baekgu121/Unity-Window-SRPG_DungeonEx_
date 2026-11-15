@@ -44,7 +44,7 @@ namespace Code.UI
             else if(setEvent.skillSO != null)
             {
                 _skil = setEvent.skillSO;
-                buyTxt.text = $"{_skil.skillName}를 구매하시겠습니까?";
+                buyTxt.text = $"{_skil.SkillName}를 구매하시겠습니까?";
             }
             
             _goldTxt = setEvent.goldTxt;
@@ -66,10 +66,10 @@ namespace Code.UI
         {
             if (_skil != null)
             {
-                if (_skil.skillPrice > PlayerManager.Instance.Gold)
+                if (_skil.SkillPrice > PlayerManager.Instance.Gold)
                     return;
             
-                PlayerManager.Instance.RemoveGold(_skil.skillPrice);
+                PlayerManager.Instance.RemoveGold(_skil.SkillPrice);
             
                 GoodsManager.Instance.GetSkill(_skil);
             

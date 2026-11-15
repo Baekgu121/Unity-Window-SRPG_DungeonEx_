@@ -10,13 +10,22 @@ namespace Code.UnitSystem.TraitSystem
         [SerializeField] private KnightCondition condition;
         [SerializeField] private ParticleSystem circleParticle;
         [SerializeField] private KnightDefenseRange defenseCompo;
+        
         private Unit _unit;
+        private CharacterUnit _characterUnit;
+        
         private UnitHealth _healthCompo;
         
         public void Initialize(Unit unit)
         {
             _unit = unit;
             _healthCompo = _unit.GetUnitCompo<UnitHealth>();
+
+            _characterUnit = _unit as CharacterUnit;
+        }
+        private void SetInvicibility(CharacterUnit unit, int maxTurn)
+        {
+            unit.GetUnitCompo<InvincibilityCompo>().SetUnitInvincibility(maxTurn);
         }
 
         public void Perform(GameObject target)
@@ -26,16 +35,17 @@ namespace Code.UnitSystem.TraitSystem
             
             foreach (var unit in defenseCompo.Targets)
             {
-                unit.GetUnitCompo<InvincibilityCompo>().SetUnitInvincibility(2);
+                SetInvicibility(unit,2);
                 unit.GetUnitCompo<UnitHealth>().HealHp(20);
             }
             
-            _unit.GetUnitCompo<InvincibilityCompo>().SetUnitInvincibility(4);
+            SetInvicibility(_characterUnit, 4);
 
             _healthCompo.ResetMaxHp();
             SoundManager.Instance.PlayClip("GlowSound");
                  
             circleParticle.Play();
         }
+
     }
 }

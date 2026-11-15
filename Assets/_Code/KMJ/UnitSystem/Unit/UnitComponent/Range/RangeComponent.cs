@@ -25,10 +25,6 @@ namespace Code.UnitSystem
             _rangeComponent = owner.GetUnitCompo<UnitManageRangeCompo>();
         }
 
-        protected virtual void Awake()
-        {
-        }
-
         protected virtual void Start()
         {
         }
@@ -46,7 +42,7 @@ namespace Code.UnitSystem
             IsActive = true;
         }
 
-        protected virtual void CalculateRange(int range)
+        protected void CalculateRange(int range)
         {
             TilesInRange.Clear();
             
@@ -70,7 +66,7 @@ namespace Code.UnitSystem
                 foreach (var dir in dirs)
                 {
                     Vector2Int next = pos + dir;
-
+                    
                     if (visited.Contains(next))
                         continue;
 
